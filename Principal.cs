@@ -180,7 +180,7 @@ namespace SAP_API
 
                     if (oPagoBO.ErrorDescripcion.Trim() != "")
                     {
-                        MessageBox.Show("Error en SAP : " + oPagoBO.ErrorDescripcion, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("Error en SAP: " + oPagoBO.ErrorDescripcion, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
 
                         //**************************************************
