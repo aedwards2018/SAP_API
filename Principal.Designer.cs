@@ -164,9 +164,9 @@
             this.lbl_version.ForeColor = System.Drawing.SystemColors.MenuHighlight;
             this.lbl_version.Location = new System.Drawing.Point(169, 597);
             this.lbl_version.Name = "lbl_version";
-            this.lbl_version.Size = new System.Drawing.Size(203, 18);
+            this.lbl_version.Size = new System.Drawing.Size(223, 18);
             this.lbl_version.TabIndex = 10;
-            this.lbl_version.Text = "Versión Junio.30.2022";
+            this.lbl_version.Text = "Versión  Agosto.09.2022";
             // 
             // progressBar1
             // 

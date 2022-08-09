@@ -92,26 +92,26 @@ namespace SAP_API
                             case "Rappi":
                                 VarCarCardCode = "COR001";
                                 VarCuentaServicio = "_SYS00000000663"; // Cuenta de Servicio
-                                VarCuentaPago = "_SYS00000000971";
-                                VarCuentaDife = "_SYS00000000818";
+                                VarCuentaPago =     "_SYS00000001115";  //Cuenta de Banco
+                                VarCuentaDife =     "_SYS00000000818";
                                 break;
                             case "Uber":
                                 VarCarCardCode = "COR002";
                                 VarCuentaServicio = "_SYS00000000599"; // Cuenta de Servicio
-                                VarCuentaPago = "_SYS00000000943";
-                                VarCuentaDife = "_SYS00000000816";
+                                VarCuentaPago =     "_SYS00000001153";    //Cuenta de Banco
+                                VarCuentaDife =     "_SYS00000000816";
                                 break;
                             case "Pedidos YA":
                                 VarCarCardCode = "COR003";
                                 VarCuentaServicio = "_SYS00000000600"; // Cuenta de Servicio
-                                VarCuentaPago = "_SYS00000000946";
-                                VarCuentaDife = "_SYS00000000817";
+                                VarCuentaPago =     "_SYS00000001156";    //Cuenta de Banco
+                                VarCuentaDife =     "_SYS00000000817";
                                 break;
                             case "Didi":
                                 VarCarCardCode = "COR004";
                                 VarCuentaServicio = "_SYS00000000602"; // Cuenta de Servicio
-                                VarCuentaPago = "_SYS00000000971";
-                                VarCuentaDife = "_SYS00000000815";
+                                VarCuentaPago =     "_SYS00000001154";     //Cuenta de Banco
+                                VarCuentaDife =     "_SYS00000000815";
                                 break;
                         }
                         //***************************
