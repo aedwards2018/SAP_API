@@ -42,8 +42,10 @@ namespace SAP_API
             oCompaniaBO.DbUserName = "R1";
             oCompaniaBO.DbPassword = "1234";
             oCompaniaBO.CompanyDB = "SBO_PIZZAHUT";
-            oCompaniaBO.UserName = "manager";
-            oCompaniaBO.Password = "BigHut76";
+            //oCompaniaBO.UserName = "manager";
+            //oCompaniaBO.Password = "BigHut76";
+            oCompaniaBO.UserName = "PH-SAP";
+            oCompaniaBO.Password = "Hut4dm1n@";
         }
         private void Principal_Load(object sender, EventArgs e)
         {
@@ -85,14 +87,19 @@ namespace SAP_API
                   
                     if (LstLinea.Items[f].Checked == true)
                     {
-                        VarProyecto = LstLinea.Items[f].SubItems[13].Text; //Protecto
+                        VarProyecto = LstLinea.Items[f].SubItems[13].Text;
+
+                        VarCarCardCode = string.Empty;
+                        VarCuentaServicio = string.Empty;
+                        VarCuentaPago = string.Empty;    
+                        VarCuentaDife = string.Empty;
 
                         switch (LstLinea.Items[f].SubItems[11].Text) //Agregador
                         {
                             case "Rappi":
                                 VarCarCardCode = "COR001";
                                 VarCuentaServicio = "_SYS00000000663"; // Cuenta de Servicio
-                                VarCuentaPago =     "_SYS00000001115";  //Cuenta de Banco
+                                VarCuentaPago =     "_SYS00000001155";  //Cuenta de Banco
                                 VarCuentaDife =     "_SYS00000000818";
                                 break;
                             case "Uber":
@@ -117,6 +124,7 @@ namespace SAP_API
                         //***************************
                         //    oDocEntry             *
                         //***************************
+                        oPagoBO.Fechadoc = DateTime.Parse( LstLinea.Items[f].SubItems[2].Text);
                         oDocEntry = Int32.Parse(LstLinea.Items[f].SubItems[9].Text);
 
                         //*********************************************
@@ -178,10 +186,10 @@ namespace SAP_API
                     }
                      oDocumentoDAO.AgregarPagoRecibido(oPagoBO);
 
-                    if (oPagoBO.ErrorDescripcion.Trim() != "")
-                    {
-                        MessageBox.Show("Error en SAP: " + oPagoBO.ErrorDescripcion, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
+                    //if (oPagoBO.ErrorDescripcion.Trim() != "")
+                    //{
+                    //    MessageBox.Show("Error en SAP: " + oPagoBO.ErrorDescripcion, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    //}
 
                         //**************************************************
                         //    Actualiza Campo AplicadoSAP  lo pone en true * 

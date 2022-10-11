@@ -159,14 +159,15 @@
             // lbl_version
             // 
             this.lbl_version.AutoSize = true;
+            this.lbl_version.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.lbl_version.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.lbl_version.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_version.ForeColor = System.Drawing.SystemColors.MenuHighlight;
+            this.lbl_version.ForeColor = System.Drawing.SystemColors.HotTrack;
             this.lbl_version.Location = new System.Drawing.Point(169, 597);
             this.lbl_version.Name = "lbl_version";
-            this.lbl_version.Size = new System.Drawing.Size(223, 18);
+            this.lbl_version.Size = new System.Drawing.Size(233, 18);
             this.lbl_version.TabIndex = 10;
-            this.lbl_version.Text = "Versión  Agosto.09.2022";
+            this.lbl_version.Text = "Versión  Octubre.11.2022";
             // 
             // progressBar1
             // 
