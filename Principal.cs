@@ -57,8 +57,6 @@ namespace SAP_API
             try
             {
 
-               
-
                 String Hil_Sql = string.Empty;
                 int fila = 0;
                 int oDocEntry = 0;
@@ -87,8 +85,9 @@ namespace SAP_API
                   
                     if (LstLinea.Items[f].Checked == true)
                     {
-                        VarProyecto = LstLinea.Items[f].SubItems[13].Text;
+                        oPagoBO.Reference = LstLinea.Items[f].SubItems[15].Text;
 
+                        VarProyecto = LstLinea.Items[f].SubItems[13].Text;
                         VarCarCardCode = string.Empty;
                         VarCuentaServicio = string.Empty;
                         VarCuentaPago = string.Empty;    
@@ -122,9 +121,14 @@ namespace SAP_API
                                 break;
                         }
                         //***************************
+                        //    Fecha de Documento    *
+                        //***************************
+                        oPagoBO.Fechadoc = DateTime.Parse(LstLinea.Items[f].SubItems[14].Text);
+                       
+                        //***************************
                         //    oDocEntry             *
                         //***************************
-                        oPagoBO.Fechadoc = DateTime.Parse( LstLinea.Items[f].SubItems[2].Text);
+
                         oDocEntry = Int32.Parse(LstLinea.Items[f].SubItems[9].Text);
 
                         //*********************************************
@@ -183,27 +187,34 @@ namespace SAP_API
                                 oPagoBO.oFacturaBO = oFacturaBO;
                                 
                         }
+                        oDocumentoDAO.AgregarPagoRecibido(oPagoBO);
+
+                        if (oPagoBO.ErrorDescripcion.Trim() != "")
+                        {
+                            MessageBox.Show("Error en SAP: " + oPagoBO.ErrorDescripcion, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                        else
+                            { 
+                            //**************************************************
+                            //    Actualiza Campo AplicadoSAP  lo pone en true * 
+                            //**************************************************
+                            Hil_Sql = "UPDATE UX_TesoAgregadoresFuente SET AplicadoSAP = 1";
+                            Hil_Sql += " Where DocEntry = " + oDocEntry;
+                            SqlCommand cmdU = new SqlCommand(Hil_Sql, conn);
+                            fila += cmdU.ExecuteNonQuery();
+                       
+                            }
+
+                        label1.Text = "Registros Procesados --> " + fila.ToString();
                     }
-                     oDocumentoDAO.AgregarPagoRecibido(oPagoBO);
-
-                    //if (oPagoBO.ErrorDescripcion.Trim() != "")
-                    //{
-                    //    MessageBox.Show("Error en SAP: " + oPagoBO.ErrorDescripcion, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    //}
-
-                        //**************************************************
-                        //    Actualiza Campo AplicadoSAP  lo pone en true * 
-                        //**************************************************
-                        Hil_Sql = "UPDATE UX_TesoAgregadoresFuente SET AplicadoSAP = 1";
-                        Hil_Sql += " Where DocEntry = " + oDocEntry;
-                        SqlCommand cmdU = new SqlCommand(Hil_Sql, conn);
-                        fila += cmdU.ExecuteNonQuery();
+                    
+                    
 
 
                     if (progressBar1.Value < progressBar1.Maximum)
                         {
                             progressBar1.Value += 1;
-                            label1.Text = "Registros Procesados --> " + fila.ToString();
+                            
                             progressBar1.PerformStep();
                             Application.DoEvents();
                         }
@@ -233,15 +244,16 @@ namespace SAP_API
                     LstLinea.Columns.Add("Pedido", 70);          //3
                     LstLinea.Columns.Add("Modo Entrega", 250);   //4
                     LstLinea.Columns.Add("Canal", 60);           //5
-                    LstLinea.Columns.Add("PrecioServicioUber", 160);
-                    LstLinea.Columns.Add("IVAPrecioServicio", 160);
-                    LstLinea.Columns.Add("Pago", 160);
-                    LstLinea.Columns.Add("DocEntry", 70);
-                    LstLinea.Columns.Add("DocNum", 90);
-                    LstLinea.Columns.Add("Agregador", 80);
-                    LstLinea.Columns.Add("Monto SAP", 80);
-                    LstLinea.Columns.Add("Proyecto", 40);
-                    LstLinea.Columns.Add("Error", 600);
+                    LstLinea.Columns.Add("PrecioServicioUber", 160); //6
+                    LstLinea.Columns.Add("IVAPrecioServicio", 160); //7 
+                    LstLinea.Columns.Add("Pago", 160);   //8
+                    LstLinea.Columns.Add("DocEntry", 70); //9
+                    LstLinea.Columns.Add("DocNum", 90);  //10
+                    LstLinea.Columns.Add("Agregador", 80); //11
+                    LstLinea.Columns.Add("Monto SAP", 80); //12
+                    LstLinea.Columns.Add("Proyecto", 40);  //13
+                    LstLinea.Columns.Add("Feche DocEntry", 100); //14
+                    LstLinea.Columns.Add("Ref.Banco", 90); //15
             }
                 catch (Exception ex)
                {
@@ -258,7 +270,8 @@ namespace SAP_API
                         String Hil_Sql = string.Empty;
                         this.LstLinea.Items.Clear();
                         Hil_Sql = "SELECT CodRest + '-' + NomTienda Tienda, IDPedidoCorto,FechaOrden,Modoentrega,Canal, ";
-                        Hil_Sql += "DocEntry, PrecioServicioUber,IVAPrecioServicio,Pago, MontoSAP, MontoCarga, AplicadoSAP,Docnum,TipoAgregador,MontoSap,CodRest FROM ";
+                        Hil_Sql += "DocEntry, PrecioServicioUber,IVAPrecioServicio,Pago, MontoSAP, MontoCarga, AplicadoSAP,Docnum,TipoAgregador,MontoSap"; 
+                        Hil_Sql += " ,CodRest,FecDocEntry,RefBanco FROM ";
                         Hil_Sql += " UX_TesoAgregadoresFuente Where (DocEntry IS NOT NULL) AND (Valida = 1) and (AplicadoSAP = 0) and (MontoSap <> 999999)";
                         SqlCommand cmda = new SqlCommand(Hil_Sql, conna);
                         rdr = cmda.ExecuteReader();
@@ -285,14 +298,16 @@ namespace SAP_API
                             LVI.SubItems.Add((string)(rdr["TipoAgregador"] == null ? "" : rdr["TipoAgregador"]));
                             LVI.SubItems.Add(Convert.ToString(rdr["MontoSap"]));
                             LVI.SubItems.Add((string)(rdr["CodRest"] == null  ? "" : rdr["CodRest"]));
-                            
+                            LVI.SubItems.Add(Convert.ToDateTime(rdr["FecDocEntry"]).ToString("dd/MM/yyyy"));
+                            LVI.SubItems.Add((string)(rdr["RefBanco"] == null ? "" : rdr["RefBanco"]));
 
-                            //LVI.SubItems.Add(rdr["NomEmpleado"]);
-                            //if (Estado == true)
-                            //    LVI.ForeColor = Color.DarkBlue;
-                            //else
-                            //    LVI.ForeColor = Color.Black;
-                        this.LstLinea.Items.Add(LVI);
+
+                    //LVI.SubItems.Add(rdr["NomEmpleado"]);
+                    //if (Estado == true)
+                    //    LVI.ForeColor = Color.DarkBlue;
+                    //else
+                    //    LVI.ForeColor = Color.Black;
+                    this.LstLinea.Items.Add(LVI);
                         }
                      
                             this.LstLinea.Refresh();

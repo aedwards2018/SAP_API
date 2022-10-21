@@ -167,7 +167,7 @@
             this.lbl_version.Name = "lbl_version";
             this.lbl_version.Size = new System.Drawing.Size(233, 18);
             this.lbl_version.TabIndex = 10;
-            this.lbl_version.Text = "Versión  Octubre.11.2022";
+            this.lbl_version.Text = "Versión  Octubre.13.2022";
             // 
             // progressBar1
             // 
